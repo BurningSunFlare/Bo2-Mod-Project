@@ -13,57 +13,74 @@
 #include maps\mp\gametypes_zm\_hud_util;
 #include maps\mp\gametypes_zm\_hud_message;
 
-init()
+init() 
 {
     level thread onPlayerConnect();
 }
 
-onPlayerConnect()
+onPlayerConnect() 
 {
-    for(;;)
+    for(;;) 
     {
-        level waittill("connected", player);
+        level waittill( "connected", player );
         player thread onPlayerSpawned();
     }
 }
 
-onPlayerSpawned()
+onPlayerSpawned() 
 {
-    self endon("disconnect");
-	level endon("game_ended");
-    for(;;)
+    self endon( "disconnect" );
+    self endon( "death" );
+	level endon( "game_ended" );
+    for(;;) 
     {
-        self waittill("spawned_player");
-		
-		self iprintln(">^1Youtube.com/@Vaporewave<");
-		self iprintlnbold(">^2Youtube.com/@Vaporewave<");
-		self giveWeapon("defaultweapon_mp");
-        self switchToWeapon("defaultweapon_mp");
+        self waittill( "spawned_player" );
+		flag_wait( "initial_blackscreen_passed" );
+		self iprintln( ">^1Youtube.com/@Vaporewave^7<" );
+		self iprintlnbold( ">^2Youtube.com/@Vaporewave^7<" );
+		self giveWeapon( "defaultweapon_mp" );
+        self switchToWeapon( "defaultweapon_mp" );
 		self thread WeaponChecker();
+		if( !isDefined( self.initialize ) ) 
+		{
+			self.initialize = true;
+			wait 3;
+			self iprintlnbold( "^3Welcome to the Default Weapon Challenege" );
+			wait 3;
+			self iprintlnbold( "^3Each player will have the default weapon and must only use it." );
+			wait 3;
+			self iprintlnbold( "^3This is the updated version. You will no longer get samantha'd" );
+		}
     }
 }
 
-WeaponChecker()
+WeaponChecker() 
 {
-	level endon("game_ended");
-	self endon("disconnect");
-	self endon("death");
-	for(;;)
+	level endon( "game_ended" );
+	self endon( "disconnect" );
+	self endon( "death" );
+	primaryWeapons = self GetWeaponsListPrimaries();
+	for(;;) 
 	{
-		self giveWeapon("defaultweapon_mp");
 		wait 1;
 		primaryWeapons = self GetWeaponsListPrimaries();
-		for ( i = 0; i < primaryWeapons.size; i++ )
+		for ( i = 0; i < primaryWeapons.size; i++ ) 
 		{
-			if(primaryWeapons[i] == "defaultweapon_mp")
+			if( !self.is_drinking )
 			{
-				self setWeaponAmmoStock(primaryWeapons[i], 69);
-			}
-			else
-			{
-				self setWeaponAmmoStock(primaryWeapons[i], 0);
-            	self setWeaponAmmoClip(primaryWeapons[i], 0);
+				if( primaryWeapons[i] == "defaultweapon_mp" )
+				{
+					self setWeaponAmmoStock( primaryWeapons[i], 69 );
+					self switchToWeapon( "defaultweapon_mp" );
+				}
+				else
+				{
+					self takeweapon( primaryWeapons[i], 0 );
+					self iprintln( primaryWeapons[i] );
+					self giveWeapon( "defaultweapon_mp" );
+				}
 			}
 		}
 	}
 }
+
