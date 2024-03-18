@@ -81,6 +81,15 @@ init_hud()
 		self.hud_text[i] setPoint("CENTER", "CENTER", -325, verticalPositionText - 55);
 
     	self.hud_text[i] setText(player[i].name + " Rolled: ^" + player[i].effpos + player[i].effect + "^7");
+    	
+    	if( player[i] IsHost() )
+    	{
+    		self.hud_text[i] fadeOverTime(.5);
+        	self.hud_text[i].color = (randomInt(255) / 255, randomInt(255) / 255, randomInt(255) / 255);
+        	self.hud_text[i] fadeOverTime(.5);
+        	self.hud_text[i].color = (1,1,1);
+        }
+    	
 		self.hud_dice = self createFontString("default", 1.6);
 		self.hud_dice setPoint("CENTER", "CENTER", -355, verticalPositionText - 70);
 		self.hud_dice setText("Roll The Dice In: ^2" + self.Time);
@@ -121,6 +130,7 @@ Refresh_Hud()
 	}
 }
 //x y w h c ? a
+
 
 
 

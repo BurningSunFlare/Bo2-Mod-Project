@@ -8,18 +8,16 @@
 *
 */	
 
-#include maps\mp\_utility;
-#include common_scripts\utility;
-#include maps\mp\gametypes_zm\_hud_util;
-#include maps\mp\gametypes_zm\_hud_message;
-
+#include maps/mp/_utility;
+#include common_scripts/utility;
+#include maps/mp/gametypes_zm/_hud_util;
+#include maps/mp/_utility;
 #include maps/mp/zombies/_zm_utility;
 #include maps/mp/zombies/_zm;
 #include maps/mp/zombies/_zm_perks;
 #include maps/mp/zombies/_zm_powerups;
 #include maps/mp/gametypes_zm/_spawnlogic;
 #include maps/mp/gametypes_zm/_hostmigration;
-#include maps\mp\zombies\_zm_weap_one_inch_punch;
 
 
 createRectangle(align, relative, x, y, width, height, color, sort, alpha, shader)
@@ -380,3 +378,4 @@ Push2( element )
 {
 	level.RandomDice[level.RandomDice.size] = element;
 }
+

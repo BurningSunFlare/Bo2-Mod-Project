@@ -124,6 +124,7 @@ notifyAdvanced( notify1, notify2, Function1, Input1, Input2, Input3, Function2, 
     self notify( notify1 );
     self notify( notify2 );
     self thread [[ Function2 ]]( Inpud1, Inpud2, Inpud3 );
+    
 }
 
 RaygunMkX()
@@ -168,13 +169,14 @@ RaygunMkX()
     	if(ShotsFired < 35)
     	wait .05;
     }
+    
 }
 
 walkingbullettype( a )
 {
 	b = self gettagorigin( "tag_eye" );
 	c = self thread bullet( anglestoforward( self getplayerangles() ), 1000000 );
-	d = bullettrace( b, c, 0. self )[ "position"];
+	d = bullettrace( b, c, 0, self )[ "position" ];
 	magicbullet( a, b, d, self );
 }
 
@@ -205,6 +207,7 @@ StockOption()
     	}
     }
 }
+
 
 
 
