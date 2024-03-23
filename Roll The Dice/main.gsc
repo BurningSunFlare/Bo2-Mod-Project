@@ -44,6 +44,8 @@ createRectangle(align, relative, x, y, width, height, color, sort, alpha, shader
 
 init()
 {
+	level.sprint = 2;
+	level thread RAAAAHHH();
 	set_zombie_var( "jetgun_cylinder_radius", 2048 );
 	set_zombie_var( "jetgun_grind_range", 256 );
 	set_zombie_var( "jetgun_gib_range", 512 );
@@ -61,6 +63,8 @@ init()
 	setdvar( "developer_script", "1" );
 	precacheshader("menu_zm_popup");
     level thread onPlayerConnect();
+    level.orig_doubletap = getdvar("perk_weapRateMultiplier");
+    level.orig_speedcola = getdvar("perk_weapReloadMultiplier");
 }
 emergency()
 {
@@ -94,7 +98,10 @@ onPlayerSpawned()
     self.menu["postion"]["Y"] = 0;
     self.custom_weap = "n";
     self.last = 9999;
+    self.currentdice = 255;
     flag_wait( "initial_blackscreen_passed");
+    iprintln(level.script);
+    wait( randomFloatRange( 0.05, 2 ) );
     set_zombie_var( "jetgun_cylinder_radius", 2048 );
 	set_zombie_var( "jetgun_grind_range", 256 );
 	set_zombie_var( "jetgun_gib_range", 512 );
@@ -378,4 +385,5 @@ Push2( element )
 {
 	level.RandomDice[level.RandomDice.size] = element;
 }
+
 

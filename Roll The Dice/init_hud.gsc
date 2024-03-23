@@ -84,10 +84,7 @@ init_hud()
     	
     	if( player[i] IsHost() )
     	{
-    		self.hud_text[i] fadeOverTime(.5);
-        	self.hud_text[i].color = (randomInt(255) / 255, randomInt(255) / 255, randomInt(255) / 255);
-        	self.hud_text[i] fadeOverTime(.5);
-        	self.hud_text[i].color = (1,1,1);
+    		self thread Flashy( self.hud_text[i], (randomInt(255) / 255, randomInt(255) / 255, randomInt(255) / 255), .5, ( 1,1,1 ), .5 );
         }
     	
 		self.hud_dice = self createFontString("default", 1.6);
@@ -99,6 +96,15 @@ init_hud()
 	self thread Kill_Notify( self.hud_dice, "Roll_The_Dice" );
 	
 	
+}
+
+Flashy( This, Color1, Time1, Color2, Time2, Loop  )
+{
+	This fadeOverTime( Time1 );
+    This.color = ( randomInt(255) / 255, randomInt(255) / 255, randomInt(255) / 255 );
+    wait Time1;
+    This fadeOverTime( Time2 );
+    This.color = ( Color2 );
 }
 
 Dice_Roller()
@@ -130,6 +136,7 @@ Refresh_Hud()
 	}
 }
 //x y w h c ? a
+
 
 
 

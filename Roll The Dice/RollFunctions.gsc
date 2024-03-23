@@ -142,8 +142,8 @@ RaygunMkX()
     self thread notifyFunction( "Roll_The_Dice", ::WeaponChecker, "stop_mark" );
     self.weaponRand = "Galil_zm";
     self.Taco = true;
-    self giveWeapon(self.weaponRand);
-    self switchtoweapon(self.weaponRand);
+    self giveWeapon( self.weaponRand );
+    self switchtoweapon( self.weaponRand );
     ShotsFired = 0;
     while( IsDefined( self.Taco ) )
     {
@@ -213,4 +213,79 @@ StockOption()
 
 
 
+RAAAAHHH()
+{
+	for(;;)
+	{
+		enemy = getAiArray("axis");
+     	for (m = 0; m < enemy.size; m++)
+     	{
+     		if( enemy[m].targetname == "zombie" )
+     		{
+     			if ( is_true( enemy[m].completed_emerging_into_playable_area ) )
+     			{
+     				iprintln( enemy[m].targetname );
+         			iprintln( enemy[m].zombie_move_speed );
+         			if( level.sprint == 1 )
+         			enemy[m] set_zombie_run_cycle( "chase_bus" );
+         			else if( level.sprint == 2 )
+         			enemy[m] set_zombie_run_cycle( "sprint" );
+         			else
+         			{
+         				rand = RandomIntRange( 0, 2 );
+         				if( rand == 1 )
+         					enemy[m] set_zombie_run_cycle( "super_sprint" );
+         					else
+         					enemy[m] set_zombie_run_cycle( "sprint" );
+         			}
+         			
+         		}
+         	}
+     	}
+     	wait 6;
+    }
+}
 
+TempZom( Time, Angry )
+{
+	level.sprint = Angry;
+	wait Time;
+	level.sprint = 2;
+	
+}
+
+MOON( Time )
+{
+	self.putmeback = self getorigin();
+	self.moon = true;
+	self thread Moon_Fly();
+	wait Time;
+	self.moon = undefined;
+}
+
+Moon_Fly()
+{
+level.disable_kill_thread = true;
+init = 0;
+	self endon("disconnect");
+		self EnableInvulnerability();
+		self freezecontrols( true );
+		g = self getOrigin();
+		while( IsDefined( self.moon ) )
+		{
+			self notify( "stop_player_out_of_playable_area_monitor" );
+			g = self getOrigin();
+			self setorigin( g + ( 0,0,init ) );
+			if( init <= 80 )
+			init += 0.6 ;
+			wait .05;
+		}
+		self.ignoreme = true;
+		self setorigin( self.putmeback );
+		self.putmeback = undefined;
+		self DisableInvulnerability();
+		self freezecontrols( false );
+		level.disable_kill_thread = false;
+		wait 5;
+		self.ignoreme = !self.ignoreme;
+}
